@@ -9,17 +9,16 @@
 #include "EventManager.h"
 #include "Field.h"
 #include "MsgManager.h"
-#pragma once
 
 class GameManager {
     //props
 private:
 
-    static GameManager *sInstance;
+    static GameManager *gameManagerInstance;
 
     MsgManager *msgManager;
 
-    static EventManager *mEventManager;
+    EventManager *mEventManager;
 
     static Field *mField;
 

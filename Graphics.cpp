@@ -86,7 +86,7 @@ void Graphics::DrawGrid() {
     SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 0);
     SDL_RenderClear(mRenderer);
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0);
-    SDL_RenderPresent(mRenderer);
+//    SDL_RenderPresent(mRenderer);
 
 
     //start drawing
@@ -105,8 +105,7 @@ void Graphics::DrawGrid() {
     y += offSet;
     SDL_RenderDrawLine(mRenderer, 0, y, 600, y);
 
-    Render();
-    Wait(3000);
+//    Render();
 }
 
 void Graphics::drawCircle(int xc, int yc, int x, int y) {
@@ -118,7 +117,7 @@ void Graphics::drawCircle(int xc, int yc, int x, int y) {
     SDL_RenderDrawPoint(mRenderer, xc - y, yc + x);
     SDL_RenderDrawPoint(mRenderer, xc + y, yc - x);
     SDL_RenderDrawPoint(mRenderer, xc - y, yc - x);
-    Render();
+//    Render();
 }
 
 void Graphics::circleBres( int xc, int yc) {
@@ -139,7 +138,7 @@ void Graphics::circleBres( int xc, int yc) {
         } else
             d = d + 4 * x + 6;
         drawCircle(xc, yc, x, y);
-         SDL_Delay(30);
+//         SDL_Delay(30);
     }
 }
 

@@ -5,7 +5,6 @@
 #ifndef BROKENTICTACTOE_GRAPHICS_H
 #define BROKENTICTACTOE_GRAPHICS_H
 #include <SDL.h>
-#pragma once
 
 class Graphics {
 

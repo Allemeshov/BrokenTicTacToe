@@ -4,19 +4,19 @@
 
 #include "GameManager.h"
 
-GameManager *GameManager::sInstance = nullptr;
+GameManager *GameManager::gameManagerInstance = nullptr;
 Field *GameManager::mField = nullptr;
 
 GameManager *GameManager::GetInstance() {
-    if (sInstance == nullptr)
-        sInstance = new GameManager();
+    if (gameManagerInstance == nullptr)
+        gameManagerInstance = new GameManager();
 
-    return sInstance;
+    return gameManagerInstance;
 }
 
 void GameManager::Release() {
-    delete sInstance;
-    sInstance = nullptr;
+    delete gameManagerInstance;
+    gameManagerInstance = nullptr;
 
     Field::Release();
 }
@@ -45,13 +45,16 @@ void GameManager::Run() {
 
     wait(2000);
     int currEvent;
+    int xMouse, yMouse;
+    int xCell, yCell;
+    bool isTriggered = true;
+    int winner;
     while (!mQuit) {
         // output field
-        mField->OutputMe();
-
-
-        int xMouse, yMouse;
-        int xCell, yCell;
+        if(isTriggered) {
+            mField->OutputMe();
+            isTriggered = false;
+        }
 
         //listen to events
         currEvent = mEventManager->GetNewEvent(&xMouse, &yMouse);
@@ -62,19 +65,32 @@ void GameManager::Run() {
             msgManager->Goodbye();
             continue;
         } else if (currEvent == mEventManager->LBM) {
-            mField->CalcCoords(&xCell, &yCell);
+            isTriggered = true;
+            mField->CalcCoords(xMouse, yMouse, &xCell, &yCell);
             mField->SetCell(mField->Cross, xCell, yCell);
         } else if (currEvent == mEventManager->RBM) {
-            mField->CalcCoords(&xCell, &yCell);
+            isTriggered = true;
+            mField->CalcCoords(xMouse, yMouse, &xCell, &yCell);
             mField->SetCell(mField->Nought, xCell, yCell);
         } else if (currEvent == mEventManager->Spaced) {
+            isTriggered = true;
             mField->ClearMe();
         } else if (currEvent == mEventManager->QB) {
+            isTriggered = true;
             mField->RandNought();
         } else if (currEvent == mEventManager->EB) {
+            isTriggered = true;
             mField->RandCross();
         }
 
-        mField->OutputMe();
+        if(isTriggered) {
+            mQuit = mField->CheckFinishGame(&winner);
+            if(mQuit) {
+                msgManager->Congrats(winner);
+                break;
+            }
+        }
+
+        wait(5);
     }
 }

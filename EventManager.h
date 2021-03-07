@@ -6,12 +6,11 @@
 #define BROKENTICTACTOE_EVENTMANAGER_H
 #include <SDL.h>
 #include <iostream>
-#pragma once
 
 class EventManager {
     //props
 private:
-    static EventManager *sInstance;
+    static EventManager *eventManagerInstance;
 
     SDL_Event gameEvent;
 

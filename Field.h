@@ -10,8 +10,6 @@
 #include <time.h>
 #include "Graphics.h"
 
-#pragma once
-
 class Field {
     //props
 private:
@@ -37,7 +35,9 @@ public:
 
     int CheckCell(int x, int y);
 
-    void CalcCoords(int *xCell, int *yCell);
+    bool CheckFinishGame(int *winner);
+
+    void CalcCoords(int xMouse, int yMouse, int *xCell, int *yCell);
 
     static Field *GetInstance();
 

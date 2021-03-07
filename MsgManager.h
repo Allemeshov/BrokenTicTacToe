@@ -6,20 +6,21 @@
 #define BROKENTICTACTOE_MSGMANAGER_H
 #include <iostream>
 #include <string>
-#pragma once
 
 class MsgManager {
 
 private:
 
-    static MsgManager *sInstance;
+    static MsgManager *msgManagerInstance;
 
     std::string welcome;
+    std::string congrats;
     std::string rules;
 
 public:
 
     void Welcome();
+    void Congrats(int winner);
     void Goodbye();
 
     static MsgManager *GetInstance();
