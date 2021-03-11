@@ -40,7 +40,11 @@ public:
     void DrawNought(int x, int y);
     void DrawCross(int x, int y);
 
+    void SetMyColor(int red, int blue, int green, int alpha);
+
     static void Wait(int milliseconds);
+
+    void StripeWinLine(int i);
 
 private:
 

@@ -47,6 +47,8 @@ public:
 
     void OutputMe();
 
+    void ColorRedCells();
+
     static void Wait(int milliseconds);
 
     bool IsInitialized();

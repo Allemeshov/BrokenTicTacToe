@@ -33,7 +33,7 @@ GameManager::GameManager() {
 }
 
 GameManager::~GameManager() {
-    //TODO finish destructor
+    Field::Release();
 }
 
 void GameManager::wait(int milliseconds) {
@@ -49,13 +49,10 @@ void GameManager::Run() {
     int xCell, yCell;
     bool isTriggered = true;
     int winner;
-    while (!mQuit) {
-        // output field
-        if(isTriggered) {
-            mField->OutputMe();
-            isTriggered = false;
-        }
 
+    // output field
+    mField->OutputMe();
+    while (!mQuit) {
         //listen to events
         currEvent = mEventManager->GetNewEvent(&xMouse, &yMouse);
 
@@ -83,10 +80,14 @@ void GameManager::Run() {
             mField->RandCross();
         }
 
-        if(isTriggered) {
+        if (isTriggered) {
+            isTriggered = false;
+            mField->OutputMe();
             mQuit = mField->CheckFinishGame(&winner);
-            if(mQuit) {
+            if (mQuit) {
                 msgManager->Congrats(winner);
+
+                wait(4000);
                 break;
             }
         }

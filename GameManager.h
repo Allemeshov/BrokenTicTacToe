@@ -36,7 +36,7 @@ public:
 
 private:
 
-    void wait(int seconds);
+    void wait(int milliseconds);
 
     GameManager();
 

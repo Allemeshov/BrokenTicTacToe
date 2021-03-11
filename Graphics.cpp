@@ -120,7 +120,7 @@ void Graphics::drawCircle(int xc, int yc, int x, int y) {
 //    Render();
 }
 
-void Graphics::circleBres( int xc, int yc) {
+void Graphics::circleBres(int xc, int yc) {
     int x = 0, y = r;
     int d = 3 - 2 * r;
     drawCircle(xc, yc, x, y);
@@ -159,3 +159,37 @@ void Graphics::DrawCross(int cellX, int cellY) {
     SDL_RenderDrawLine(mRenderer, x, y, x + 100, y + 100);
 }
 
+void Graphics::SetMyColor(int red, int blue, int green, int alpha) {
+    SDL_SetRenderDrawColor(mRenderer, red, blue, green, alpha);
+}
+
+void Graphics::StripeWinLine(int i) {
+    SDL_SetRenderDrawColor(mRenderer, 255, 0, 0, 255);
+    int offSet = (SCREEN_WIDTH - 3) / 3;
+    int x, y;
+    switch (i) {
+        case 0:
+        case 1:
+        case 2: {
+            y = offSet / 2 + offSet * i;
+            SDL_RenderDrawLine(mRenderer, 0, y, SCREEN_WIDTH, y);
+            break;
+        }
+        case 3:
+        case 4:
+        case 5: {
+            x = offSet / 2 + offSet * (i - 3);
+            SDL_RenderDrawLine(mRenderer, x, 0, x, SCREEN_HEIGHT);
+            break;
+        }
+        case 6: {
+            SDL_RenderDrawLine(mRenderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            break;
+        }
+        case 7: {
+            SDL_RenderDrawLine(mRenderer, 0, SCREEN_HEIGHT, SCREEN_WIDTH, 0);
+            break;
+        }
+    }
+    Render();
+}

@@ -83,6 +83,12 @@ void Field::OutputMe() {
     mGraphics->Render();
 }
 
+void Field::ColorRedCells() {
+    mGraphics->SetMyColor(255, 0, 0, 255);
+    FillGrid();
+    mGraphics->Render();
+}
+
 void Field::CalcCoords(int xMouse, int yMouse, int *xCell, int *yCell) {
     int offSet = (Graphics::SCREEN_WIDTH - 3) / 3;
 
@@ -155,46 +161,56 @@ void Field::RandNought() {
 }
 
 bool Field::CheckFinishGame(int *winner) {
-    bool isFinished = true;
-
     int sign;
+    int winLineType = -1;
+    bool isFinished;
+
     //checking rows
     for (int i = 0; i < 3; ++i) {
         sign = field[i][0];
         if (sign == -1)
-            break;
+            continue;
+        else
+            isFinished = true;
         for (int j = 1; j < 3; ++j) {
             isFinished = field[i][j] == sign && isFinished;
         }
         if (isFinished) {
             *winner = sign;
+            winLineType = i;
+            mGraphics->StripeWinLine(winLineType);
             return isFinished;
         }
     }
 
     //checking columns
-    isFinished = true;
     for (int i = 0; i < 3; ++i) {
         sign = field[0][i];
         if (sign == -1)
-            break;
+            continue;
+        else
+            isFinished = true;
         for (int j = 1; j < 3; ++j) {
             isFinished = field[j][i] == sign && isFinished;
         }
         if (isFinished) {
+            winLineType = i + 3;
+            mGraphics->StripeWinLine(winLineType);
             *winner = sign;
             return isFinished;
         }
     }
 
     //checking main diagonal
-    isFinished = true;
     sign = field[0][0];
     if (sign != -1) {
+        isFinished = true;
         for (int i = 1; i < 3; ++i) {
             isFinished = field[i][i] == sign && isFinished;
         }
         if (isFinished) {
+            winLineType = 6;
+            mGraphics->StripeWinLine(winLineType);
             *winner = sign;
             return isFinished;
         }
@@ -203,11 +219,13 @@ bool Field::CheckFinishGame(int *winner) {
     //checking sub diagonal
     sign = field[2][0];
     if (sign != -1) {
-
+        isFinished = true;
         for (int i = 0; i < 3; ++i) {
             isFinished = field[2 - i][i] == sign && isFinished;
         }
         if (isFinished) {
+            winLineType = 7;
+            mGraphics->StripeWinLine(winLineType);
             *winner = sign;
             return isFinished;
         }
@@ -216,10 +234,11 @@ bool Field::CheckFinishGame(int *winner) {
     bool fullPlaced = true;
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
-            fullPlaced = field[i][j] != -1;
+            fullPlaced = field[i][j] != -1 && fullPlaced;
         }
     }
     if (fullPlaced) {
+        ColorRedCells();
         *winner = -1;
         return true;
     }
